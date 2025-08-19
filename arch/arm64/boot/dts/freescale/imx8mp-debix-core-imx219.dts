@@ -17,7 +17,7 @@
                 assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
                 assigned-clock-rates = <24000000>;
                 csi_id = <0>;
-                reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+                reset-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
                 mipi_csi;
                 status = "okay";
                 port {

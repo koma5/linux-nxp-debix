@@ -1011,12 +1011,19 @@ static int imx219_identify_module(struct imx219 *imx219)
 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
 	int ret;
 	u64 val;
+	int retry;
 
-	ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
-	if (ret) {
-		dev_err(&client->dev, "failed to read chip id %x\n",
+	for (retry = 0; ; retry++) {
+		ret = cci_read(imx219->regmap, IMX219_REG_CHIP_ID, &val, NULL);
+		if (!ret)
+			break;
+
+		dev_err(&client->dev, "failed to read <KocH snaity check /KocH> chip id %x\n",
 			IMX219_CHIP_ID);
-		return ret;
+		if (retry >= 50)
+			return ret;
+
+		usleep_range(50000, 55000);
 	}
 
 	if (val != IMX219_CHIP_ID) {
