@@ -1047,7 +1047,13 @@ static int imx219_identify_module(struct imx219 *imx219)
 	return 0;
 }
 
+static int imx219_s_power(struct v4l2_subdev *sd, int on)
+{
+	return 0;
+}
+
 static const struct v4l2_subdev_core_ops imx219_core_ops = {
+	.s_power = imx219_s_power,
 	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
 	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
 };
