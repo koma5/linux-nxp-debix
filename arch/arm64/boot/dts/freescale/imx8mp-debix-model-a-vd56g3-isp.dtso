@@ -1,0 +1,153 @@
+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+/*
+ * Copyright 2022 Ideas on Board Oy
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8mp-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/media/video-interfaces.h>
+#include "imx8mp-pinfunc.h"
+
+&{/} {
+       camera_clk_12M: camera_clk_12M {
+               compatible = "fixed-clock";
+               #clock-cells = <0>;
+               clock-frequency = <12000000>;
+               clock-output-names = "camera_clk_12M";
+       };
+
+       reg_cam: regulator-cam {
+               compatible = "regulator-fixed";
+               regulator-name = "reg_cam";
+               //gpio = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+               pinctrl-names = "default";
+               //pinctrl-0 = <&pinctrl_reg_cam>;
+               //enable-active-high;
+               regulator-min-microvolt = <3300000>;
+               regulator-max-microvolt = <3300000>;
+       };
+};
+
+
+
+&i2c2 {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_i2c2>;
+        clock-frequency = <400000>;
+        status = "okay";
+
+
+        vd56g3: vd56g3@10 {
+            compatible = "st,vd56g3";
+            reg = <0x10>;
+
+            clocks = <&camera_clk_12M>;
+
+            vcore-supply = <&reg_cam>;
+            vddio-supply = <&reg_cam>;
+            vana-supply = <&reg_cam>;
+
+            reset-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+            //st,leds = <6>;
+
+            orientation = <2>;
+            rotation = <0>;
+
+
+            port {
+                vd56g3_out: endpoint {
+                    data-lanes = <1 2>;
+                    clock-lanes = <0>;
+                    link-frequencies = /bits/ 64 <402000000>;
+                    remote-endpoint = <&mipi_csi_0_in>;
+                    clock-noncontinuous;
+                    lane-polarities = <1 1 1>;
+                };
+            };
+        };
+};
+
+
+&isi_0 {
+       status = "disabled";
+
+       ports {
+               port@0 {
+                       /delete-node/ endpoint;
+               };
+       };
+};
+
+
+&isp_0 {
+       status = "okay";
+
+       ports {
+               port@1 {
+                       isp0_in: endpoint {
+                               bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
+                               remote-endpoint = <&mipi_csi_0_out>;
+                       };
+               };
+       };
+};
+
+
+&mipi_csi_0 {
+       status = "okay";
+
+       ports {
+               #address-cells = <1>;
+               #size-cells = <0>;
+
+               port@0 {
+                       reg = <0>;
+
+                       mipi_csi_0_in: endpoint {
+                               remote-endpoint = <&vd56g3_out>;
+                               clock-lanes = <0>;
+                               data-lanes = <1 2>;
+                               clock-noncontinuous;
+                       };
+               };
+
+
+               port@1 {
+                       reg = <1>;
+
+                       mipi_csi_0_out: endpoint {
+                               remote-endpoint = <&isp0_in>;
+                       };
+               };
+       };
+};
+
+
+
+&iomuxc {
+
+		pinctrl_reg_cam: regcamgrp {
+			fsl,pins = <
+				MX8MP_IOMUXC_GPIO1_IO06__GPIO1_IO06                            0x19
+			>;
+		};
+
+       pinctrl_csi0_pwn: csi0_pwn_grp {
+                fsl,pins = <
+                        MX8MP_IOMUXC_SD1_STROBE__GPIO2_IO11 0x19
+                >;
+        };
+
+        pinctrl_csi_mclk: csi_mclk_grp {
+                fsl,pins = <
+                        MX8MP_IOMUXC_GPIO1_IO15__CCM_CLKO2      0x59
+                >;
+        };
+
+};
+

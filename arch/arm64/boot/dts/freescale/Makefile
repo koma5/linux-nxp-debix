@@ -879,3 +879,11 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk.dtb \
 			imx8mp-debix-lora-TD080B.dtb \
 			imx8mp-debix-lora-TD101A.dtb \
 			imx8mp-debix-lora-board.dtb
+
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-debix-model-a-vd56g3-isp.dtbo
+
+imx8mp-debix-model-a-vd56g3-isp-dtbs           := imx8mp-debix-model-a.dtb imx8mp-debix-model-a-vd56g3-isp.dtbo
+
+dtb-$(CONFIG_ARCH_MXC) += imx8mp-debix-model-a-vd56g3-isp.dtb
+
+
