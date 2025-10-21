@@ -864,6 +864,7 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk.dtb \
 			imx8mp-debix-core-TD101A.dtb \
 			imx8mp-debix-core-gc2145.dtb \
 			imx8mp-debix-core-ov5640.dtb \
+			imx8mp-debix-core-vd56g3-isp.dtb \
 			imx8mp-debix-core-ar1335.dtb \
 			imx8mp-debix-4g-board.dtb \
 			imx8mp-debix-io-TD050A.dtb \
@@ -880,10 +881,5 @@ dtb-$(CONFIG_ARCH_MXC) += imx8mp-evk.dtb \
 			imx8mp-debix-lora-TD101A.dtb \
 			imx8mp-debix-lora-board.dtb
 
-dtb-$(CONFIG_ARCH_MXC) += imx8mp-debix-model-a-vd56g3-isp.dtbo
-
-imx8mp-debix-model-a-vd56g3-isp-dtbs           := imx8mp-debix-model-a.dtb imx8mp-debix-model-a-vd56g3-isp.dtbo
-
-dtb-$(CONFIG_ARCH_MXC) += imx8mp-debix-model-a-vd56g3-isp.dtb
 
 
