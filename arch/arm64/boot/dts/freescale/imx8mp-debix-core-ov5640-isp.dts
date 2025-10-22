@@ -3,8 +3,9 @@
  * Copyright 2022 Ideas on Board Oy
  */
 
-/dts-v1/;
-/plugin/;
+
+#include "imx8mp-debix-core-board.dts"
+
 
 #include <dt-bindings/clock/imx8mp-clock.h>
 #include <dt-bindings/gpio/gpio.h>
