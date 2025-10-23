@@ -34,7 +34,13 @@
        };
 };
 
+&cameradev {
+        status = "okay";
+};
 
+&dewarp {
+	status = "okay";
+};
 
 &i2c2 {
         #address-cells = <1>;
@@ -86,6 +92,10 @@
        };
 };
 
+&isi_1 {
+	status = "disabled";
+};
+
 
 &isp_0 {
        status = "okay";
@@ -98,6 +108,11 @@
                        };
                };
        };
+};
+
+
+&isp_1 {
+	status = "disabled";
 };
 
 
